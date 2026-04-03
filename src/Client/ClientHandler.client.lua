@@ -2,4 +2,6 @@ local sd = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):W
 
 local UIService = require(sd.ClientModules:WaitForChild("UIService"))
 
-task.spawn(UIService:Init())
+task.spawn(function()
+    UIService:Init()
+end)
