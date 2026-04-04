@@ -2,6 +2,8 @@ local Board = {}
 
 local sd = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Modules"):WaitForChild("Directory"))
 
+Board.LocalizedGameBoards = {}
+
 local function GetGridObjects(GridTable)
     
     local items = {}
@@ -29,10 +31,9 @@ local function GetGridObjects(GridTable)
 end
 
 local function ApplyColorToItems(colorTable, GridItems)
-    
     for i = 1, #GridItems do
         local part = GridItems[i]
-
+        part:SetAttribute("CurrentColor", colorTable[i].Name)
         part.Color = colorTable[i].Value
     end
 end
@@ -40,7 +41,8 @@ end
 
 function Board.ApplyColors(colorTable)
     local board = sd.GameAreas.GameTable.BlackBoard -- SWITCH THIS TO THE PARENT OF THE CHAIR NEXT TIME.
-    
+    local GameTable = sd.GameAreas.GameTable
+
     if not board or not colorTable then
         return
     end
@@ -48,7 +50,14 @@ function Board.ApplyColors(colorTable)
     local gridTable = board:WaitForChild("Grids"):GetChildren()
     local GridItems = GetGridObjects(gridTable)
 
+    Board.LocalizedGameBoards[GameTable] = GridItems
+
     ApplyColorToItems(colorTable, GridItems)
+end
+
+
+function Board:GetColorTable() -- ADD A PARAMETER HERE NEXT TIME DEPENDING WHERE THE PLAYER IS PLAYING AT.
+    print(Board.LocalizedGameBoards)
 end
 
 return Board
