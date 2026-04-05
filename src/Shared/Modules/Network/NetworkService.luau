@@ -23,5 +23,4 @@ NetworkService.PalettePackets = ByteNet.defineNamespace("Palette", function()
     }
 end)
 
-
 return NetworkService
