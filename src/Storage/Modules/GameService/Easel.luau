@@ -3,6 +3,8 @@ local Easel = {}
 local sd = require(game:GetService("ReplicatedStorage"):WaitForChild("Shared"):WaitForChild("Modules"):WaitForChild("Directory"))
 local NetworkService = sd.NetworkService
 
+local TemplateFolder = game:GetService("ServerStorage"):WaitForChild("Templates")
+
 -- Localized is just my way of portraying a specific gametable by the players.
 Easel.LocalizedGameBoards = {}
 Easel.LocalizedPaintedGrids = {}
@@ -20,21 +22,26 @@ end
 
 -----------------------------------------------------------------------------
 
-local function HandlePaintedArea(GameTable)
+-- Checks if the painted area is == 9, if yes then check win.
+function Easel:CountPaintedArea(GameTable, PaintArea : BasePart)
+    if not self.LocalizedPaintedGrids[GameTable] then
+        self.LocalizedPaintedGrids[GameTable] = {paintedGrids = 0}
+    end
 
-    if not Easel.LocalizedPaintedGrids[GameTable] then
-            Easel.LocalizedPaintedGrids[GameTable] = {paintedGrids = 1}
+    local paintedData = self.LocalizedPaintedGrids[GameTable]
+
+    if not paintedData then 
         return
-     end
+    end
 
-    local paintedData = Easel.LocalizedPaintedGrids[GameTable]
+    if paintedData.paintedGrids == 9 then
+        return true
+    end
 
-     if paintedData.paintedGrids == 9 then
-        return
-     end
+    paintedData.paintedGrids = paintedData.paintedGrids + 1
+    print(paintedData.paintedGrids)
 
-     paintedData.paintedGrids = paintedData.paintedGrids + 1
-
+    return false
 end
 
 -----------------------------------------------------------------------------
@@ -52,7 +59,15 @@ local function InsertToGameBoardTable(GameBoardModel, SortedGrids)
 end
 
 function Easel:LoadPaintArea()
+    --[[
+    
+        Gridfolder & the gameboard model should be taken as a parameter next time.
+        It must be passed by gameservice -> easel
+
+    ]]
     local GridFolder = sd.GameAreas.GameTable.Easel.Grids -- SETS THIS TO THE TABLE PLAYER IS SITTING AT NEXT TIME
+
+
     local GameBoardModel = GridFolder.Parent.Parent
 
     if not GridFolder then 
@@ -67,21 +82,19 @@ function Easel:LoadPaintArea()
          InsertToGameBoardTable(GameBoardModel, gridObj)
         
         for _, z  in pairs(gridObj) do
-            self:SetupClickDetectors(z)
+            self:SetupClickDetectors(z, GameBoardModel)
         end
     end
 end
 
-function Easel:SetupClickDetectors(PaintArea : BasePart)
+function Easel:SetupClickDetectors(PaintArea : BasePart, GameBoardModel)
     local cd = PaintArea:FindFirstChild("ClickDetector")
 
     if not cd or not PaintArea then 
         return 
     end
 
-    local GameTable = PaintArea.Parent.Parent.Parent.Parent
-
-    if not GameTable then 
+    if not GameBoardModel then 
         return
     end
     
@@ -90,7 +103,11 @@ function Easel:SetupClickDetectors(PaintArea : BasePart)
         PaintArea:SetAttribute("CurrentColor", Easel.ChosenColor)
         PaintArea:SetAttribute("Colored", true)
 
-        HandlePaintedArea(GameTable)
+        local isComplete = self:CountPaintedArea(GameBoardModel, PaintArea)
+        
+        if isComplete then
+           TemplateFolder:FindFirstChild("IsAllPainted"):Fire("Test")
+        end
     end)
 
 end
