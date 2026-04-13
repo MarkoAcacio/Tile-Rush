@@ -8,11 +8,9 @@ function TweenUtils:Levitate(Object : BasePart?, Height : number, Speed : number
 		return
 	end
 
-	print("IM CALLED")
-
 	sd.TweenService:Create(
 		Object,
-		TweenInfo.new(Speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, 0, true),
+		TweenInfo.new(Speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut, -1, true),
 		{ CFrame = Object.CFrame * CFrame.new(0, Height, 0) }
 	):Play()
 	
