@@ -23,4 +23,14 @@ NetworkService.PalettePackets = ByteNet.defineNamespace("Palette", function()
     }
 end)
 
+NetworkService.GamePackets = Bytenet.defineNamespace("GamePackets", function()
+    return {
+        PlayingState = Bytenet.definePacket({
+            value = ByteNet.struct({
+                isPlaying = Bytenet.bool
+            })
+        })
+    }
+end)
+
 return NetworkService
