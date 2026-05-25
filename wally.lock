@@ -3,6 +3,11 @@
 registry = "test"
 
 [[package]]
+name = "developercron/camerashake"
+version = "0.2.0"
+dependencies = []
+
+[[package]]
 name = "evaera/promise"
 version = "4.0.0"
 dependencies = []
@@ -30,4 +35,4 @@ dependencies = [["Promise", "evaera/promise@4.0.0"]]
 [[package]]
 name = "tanner/tilerush"
 version = "0.1.0"
-dependencies = [["bytenet", "ffrostflame/bytenet@0.4.6"], ["janitor", "howmanysmall/janitor@1.18.3"], ["profileservice", "firebird702/profileservice@1.1.0"]]
+dependencies = [["bytenet", "ffrostflame/bytenet@0.4.6"], ["camerashake", "developercron/camerashake@0.2.0"], ["janitor", "howmanysmall/janitor@1.18.3"], ["promise", "evaera/promise@4.0.0"], ["profileservice", "firebird702/profileservice@1.1.0"]]

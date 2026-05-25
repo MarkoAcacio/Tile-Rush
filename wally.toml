@@ -7,6 +7,8 @@ realm = "server"
 [dependencies]
 janitor = "howmanysmall/janitor@1.18.3"
 bytenet = "ffrostflame/bytenet@0.4.6"
+promise = "evaera/promise@4.0.0"
+camerashake = "developercron/camerashake@0.2.0"
 
 [server-dependencies]
 profileservice = "firebird702/profileservice@1.1.0"

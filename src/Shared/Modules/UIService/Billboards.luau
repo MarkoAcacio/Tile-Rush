@@ -16,7 +16,7 @@ function Billboards.StartTweens()
 			continue
 		end
 		
-		TweenUtils:Levitate(GameText, 4, 1)
+		TweenUtils:Levitate(GameText, 1.5, 2)
 		
 	end
 	
